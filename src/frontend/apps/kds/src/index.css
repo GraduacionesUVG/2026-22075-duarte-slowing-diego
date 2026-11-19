@@ -1,0 +1,98 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Tokens transcritos del design system de Figma (QOrder) para las pantallas del KDS. */
+:root {
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --brand-primary: #ff6b35;
+  --sidebar: #1f2a94;
+  --kds-app-bg: #eeeeee;
+  --kds-card-bg: #f6f6f6;
+  --kds-state-ontime: #04a904;
+  --kds-state-warning: #d8c624;
+  --kds-state-late: #da0000;
+
+  --status-success-bg: #e7f8ee;
+  --status-success-text: #15803d;
+  --status-warning-bg: #fef3e2;
+  --status-warning-text: #b45309;
+  --status-error-bg: #fde8e8;
+  --status-error-text: #b91c1c;
+
+  /* Modificadores de los productos ("Sin cebolla", "Extra queso"): etiqueta de color distinta al texto. */
+  --modifier-bg: #ffe6da;
+  --modifier-text: #b23c0a;
+
+  --radius-kds-pill: 20px;
+  --radius-kds-card: 30px;
+
+  --ring-border: inset 0 0 0 1px #e4e6ed;
+
+  /* Fondo de los botones de ícono del sidebar: siempre claro (los íconos son oscuros). */
+  --kds-icon-btn-bg: #eeeeee;
+
+  /* Tonos de la cabecera de las tarjetas: tint = fondo pastel, deep = texto sobre el tint,
+     chip = fondo del reloj (texto blanco). "payment" es para pedidos esperando pago (no es urgencia). */
+  --tone-ontime-tint: #e7f8ee;
+  --tone-ontime-deep: #15803d;
+  --tone-ontime-chip: #15803d;
+  --tone-warning-tint: #fef3e2;
+  --tone-warning-deep: #b45309;
+  --tone-warning-chip: #b45309;
+  --tone-late-tint: #fde8e8;
+  --tone-late-deep: #b91c1c;
+  --tone-late-chip: #b91c1c;
+  --tone-payment-tint: #e8eafb;
+  --tone-payment-deep: #1f2a94;
+  --tone-payment-chip: #1f2a94;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  /* Tablet táctil: sin zoom por doble toque (la app usa doble toque para confirmar). */
+  touch-action: manipulation;
+}
+
+/* Scroll visible siempre: en tablet las barras normales son "overlay" y desaparecen, sin pista de que
+   hay más contenido. Esta barra es delgada, fija y deja un carril a la derecha para arrastrar. */
+.kds-scroll {
+  scrollbar-gutter: stable;
+  scrollbar-width: auto;
+  scrollbar-color: #9ca3af transparent;
+  -webkit-overflow-scrolling: touch;
+}
+.kds-scroll::-webkit-scrollbar {
+  width: 10px;
+}
+.kds-scroll::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: 9999px;
+}
+.kds-scroll::-webkit-scrollbar-thumb {
+  background: #9ca3af;
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+/* Utilidades de sombra: Tailwind no puede inferir el tipo de un valor `var(...)`
+   dentro de `shadow-[...]`, así que estas variables de varias partes (ring + shadow)
+   se aplican como clases planas en vez de utilidades arbitrarias. */
+.kds-ring-border {
+  box-shadow: var(--ring-border);
+}
+/* Borde de las tarjetas de pedido: fijo, porque las tarjetas son claras en ambos modos. */
+.kds-ring-card {
+  box-shadow: inset 0 0 0 1px #e4e6ed;
+}

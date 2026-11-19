@@ -1,0 +1,21 @@
+# Dependencias y entornos
+node_modules/
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Credenciales
+.env
+.env.*
+!.env.example
+
+# Compilados y temporales
+dist/
+storybook-static/
+*.log
+.DS_Store
+
+# Editores
+.idea/
+.vscode/

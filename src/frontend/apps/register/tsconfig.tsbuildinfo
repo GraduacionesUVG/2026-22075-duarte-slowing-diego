@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/components/pageshell.tsx","./src/hooks/useregistrationflow.ts","./src/views/alreadyregistered.tsx","./src/views/confirmemailsent.tsx","./src/views/registerform.tsx","./src/views/registersuccess.tsx","./vite.config.ts"],"version":"5.9.3"}

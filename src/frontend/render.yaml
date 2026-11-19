@@ -1,0 +1,106 @@
+# Blueprint de Render (https://render.com/docs/infrastructure-as-code): las cuatro apps del monorepo
+# se publican como sitios estáticos independientes, todos desde la rama main.
+#
+# Cómo usarlo: Render -> New -> Blueprint -> elegir este repositorio. Ver DEPLOY.md para el paso
+# a paso y para lo que hay que configurar en el backend (CORS y URLs) antes de usarlo.
+#
+# VITE_API_URL se "hornea" al compilar: si se cambia, hay que volver a desplegar el sitio.
+
+services:
+  # --- KDS: pantalla de cocina ---------------------------------------------------------------
+  - type: web
+    name: qorder-kds
+    runtime: static
+    branch: main
+    buildCommand: npm install -g pnpm@9.15.0 && pnpm install --frozen-lockfile && pnpm --filter kds build
+    staticPublishPath: ./apps/kds/dist
+    pullRequestPreviewsEnabled: false
+    buildFilter:
+      paths:
+        - apps/kds/**
+        - packages/**
+        - pnpm-lock.yaml
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: VITE_API_URL
+        value: https://gp-agent-backend.onrender.com
+    routes:
+      # Las apps no tienen router: cualquier ruta debe devolver index.html.
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+  # --- Admin: back-office de cada restaurante --------------------------------------------------
+  # Esta URL es la que va en ADMIN_FRONTEND_URL del backend (enlaces de "restablecer contraseña":
+  # <url>/reset-password?token=...), por eso la regla de rewrite a index.html es obligatoria.
+  - type: web
+    name: qorder-admin
+    runtime: static
+    branch: main
+    buildCommand: npm install -g pnpm@9.15.0 && pnpm install --frozen-lockfile && pnpm --filter admin build
+    staticPublishPath: ./apps/admin/dist
+    pullRequestPreviewsEnabled: false
+    buildFilter:
+      paths:
+        - apps/admin/**
+        - packages/**
+        - pnpm-lock.yaml
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: VITE_API_URL
+        value: https://gp-agent-backend.onrender.com
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+  # --- Ops: panel Dev/TI -----------------------------------------------------------------------
+  - type: web
+    name: qorder-ops
+    runtime: static
+    branch: main
+    buildCommand: npm install -g pnpm@9.15.0 && pnpm install --frozen-lockfile && pnpm --filter ops build
+    staticPublishPath: ./apps/ops/dist
+    pullRequestPreviewsEnabled: false
+    buildFilter:
+      paths:
+        - apps/ops/**
+        - packages/**
+        - pnpm-lock.yaml
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: VITE_API_URL
+        value: https://gp-agent-backend.onrender.com
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+  # --- Register: registro de estudiantes (el bot manda a esta URL: PROD_LOGIN_URL) ---------------
+  - type: web
+    name: qorder-register
+    runtime: static
+    branch: main
+    buildCommand: npm install -g pnpm@9.15.0 && pnpm install --frozen-lockfile && pnpm --filter register build
+    staticPublishPath: ./apps/register/dist
+    pullRequestPreviewsEnabled: false
+    buildFilter:
+      paths:
+        - apps/register/**
+        - packages/**
+        - pnpm-lock.yaml
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: VITE_API_URL
+        value: https://gp-agent-backend.onrender.com
+      # Número del bot de WhatsApp al que "Volver a WhatsApp" regresa al estudiante (ajusta el valor).
+      - key: VITE_WHATSAPP_BOT_LINK
+        value: https://wa.me/50280133587
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

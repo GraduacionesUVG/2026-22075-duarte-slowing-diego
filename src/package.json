@@ -1,0 +1,20 @@
+{
+  "name": "qorder-src",
+  "private": true,
+  "description": "Atajos para instalar y ejecutar el agente IA (agente/) y el frontend (frontend/) de QOrder.",
+  "scripts": {
+    "frontend:install": "pnpm --dir frontend install",
+    "frontend:dev": "pnpm --dir frontend dev",
+    "frontend:kds": "pnpm --dir frontend --filter ./apps/kds dev",
+    "frontend:admin": "pnpm --dir frontend --filter ./apps/admin dev",
+    "frontend:ops": "pnpm --dir frontend --filter ./apps/ops dev",
+    "frontend:register": "pnpm --dir frontend --filter ./apps/register dev",
+    "frontend:storybook": "pnpm --dir frontend --filter ./apps/kds storybook",
+    "frontend:typecheck": "pnpm --dir frontend typecheck",
+    "frontend:build": "pnpm --dir frontend build",
+    "agente:install": "pip install -r agente/requirements.txt",
+    "agente:start": "cd agente && python -m uvicorn webhook:app --reload --port 3000",
+    "agente:simulador": "cd agente && python main.py",
+    "agente:test": "cd agente && python -m pytest test"
+  }
+}
